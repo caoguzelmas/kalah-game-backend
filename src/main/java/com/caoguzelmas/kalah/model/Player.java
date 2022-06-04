@@ -1,15 +1,28 @@
 package com.caoguzelmas.kalah.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
 
     private Integer playerId;
     private Store playerStore;
+    private List<House> houses;
     private Boolean isActivePlayer;
 
-    public Player(Integer playerId, Store playerStore, Boolean isActivePlayer) {
+    public Player(int expectedSizeOfHouseList, int expectedNumberOfStones,
+                  Integer playerId, Store playerStore, Boolean isActivePlayer) {
+        generateHouseList(expectedSizeOfHouseList, expectedNumberOfStones);
         this.playerId = playerId;
         this.playerStore = playerStore;
         this.isActivePlayer = isActivePlayer;
+    }
+
+    private void generateHouseList(int expectedSizeOfHouseList, int expectedNumberOfStones) {
+        this.houses = new ArrayList<>();
+        for (int i = 1; i <= expectedSizeOfHouseList; i++) {
+            this.houses.add(new House(i, expectedNumberOfStones));
+        }
     }
 
     public Integer getPlayerId() {
@@ -26,6 +39,14 @@ public class Player {
 
     public void setPlayerStore(Store playerStore) {
         this.playerStore = playerStore;
+    }
+
+    public List<House> getHouses() {
+        return houses;
+    }
+
+    public void setHouses(List<House> houses) {
+        this.houses = houses;
     }
 
     public Boolean getActivePlayer() {
