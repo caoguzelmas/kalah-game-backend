@@ -1,6 +1,7 @@
 package com.caoguzelmas.kalah.controller;
 
 import com.caoguzelmas.kalah.dto.GameRequestDto;
+import com.caoguzelmas.kalah.exceptions.IllegalMoveException;
 import com.caoguzelmas.kalah.model.Game;
 import com.caoguzelmas.kalah.service.IGameService;
 import com.caoguzelmas.kalah.service.IMoveService;
@@ -27,6 +28,16 @@ public class GameController {
 
     @PutMapping("/move")
     public ResponseEntity<Game> move(@RequestParam Integer gameId, @RequestParam Integer selectedHouseIndex) {
-        return ResponseEntity.status(HttpStatus.OK).body(moveService.move(gameId, selectedHouseIndex));
+        Game moveResponse = new Game();
+        try {
+            moveResponse = moveService.move(gameId, selectedHouseIndex);
+
+            return ResponseEntity.status(HttpStatus.OK).body(moveResponse);
+        } catch (IllegalMoveException illegalMove) {
+            moveResponse.setSuccess(false);
+            moveResponse.setMessage(illegalMove.getMessage());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(moveResponse);
+        }
     }
 }

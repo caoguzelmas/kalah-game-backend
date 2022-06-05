@@ -1,19 +1,40 @@
 package com.caoguzelmas.kalah.model;
 
-public class Game {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Game extends ResponseCode {
 
     private Integer gameId;
     private Player firstPlayer;
     private Player secondPlayer;
+    private Integer winnerPlayerId;
     private Boolean flowsCounterClockwise;
     private Boolean emptyCaptureEnabled;
+    private Boolean remainingStonesInsertionEnabled;
 
-    public Game(Player firstPlayer, Player secondPlayer, Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled) {
+    public Game(Player firstPlayer, Player secondPlayer, Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled,
+                Boolean remainingStonesInsertionEnabled, ResponseCode responseCode) {
+        super(responseCode.isSuccess(), responseCode.getMessage());
         this.gameId = hashCode();
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.flowsCounterClockwise = flowsCounterClockwise;
         this.emptyCaptureEnabled = emptyCaptureEnabled;
+        this.remainingStonesInsertionEnabled = remainingStonesInsertionEnabled;
+    }
+
+    public Game() {
+        super();
+    }
+
+    @JsonIgnore
+    public Player getActivePlayer() {
+        return getFirstPlayer().getActivePlayer() ? getFirstPlayer() : getSecondPlayer();
+    }
+
+    @JsonIgnore
+    public Player getInactivePlayer() {
+        return !getFirstPlayer().getActivePlayer() ? getFirstPlayer() : getSecondPlayer();
     }
 
     public Integer getGameId() {
@@ -40,6 +61,14 @@ public class Game {
         this.secondPlayer = secondPlayer;
     }
 
+    public Integer getWinnerPlayerId() {
+        return winnerPlayerId;
+    }
+
+    public void setWinnerPlayerId(Integer winnerPlayerId) {
+        this.winnerPlayerId = winnerPlayerId;
+    }
+
     public Boolean getFlowsCounterClockwise() {
         return flowsCounterClockwise;
     }
@@ -54,5 +83,13 @@ public class Game {
 
     public void setEmptyCaptureEnabled(Boolean emptyCaptureEnabled) {
         this.emptyCaptureEnabled = emptyCaptureEnabled;
+    }
+
+    public Boolean getRemainingStonesInsertionEnabled() {
+        return remainingStonesInsertionEnabled;
+    }
+
+    public void setRemainingStonesInsertionEnabled(Boolean remainingStonesInsertionEnabled) {
+        this.remainingStonesInsertionEnabled = remainingStonesInsertionEnabled;
     }
 }

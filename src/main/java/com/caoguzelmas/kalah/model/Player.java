@@ -1,5 +1,7 @@
 package com.caoguzelmas.kalah.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +20,20 @@ public class Player {
         this.isActivePlayer = isActivePlayer;
     }
 
+    public Player(int playerId) {
+        this.playerId = playerId;
+    }
+
     private void generateHouseList(int expectedSizeOfHouseList, int expectedNumberOfStones) {
         this.houses = new ArrayList<>();
         for (int i = 1; i <= expectedSizeOfHouseList; i++) {
             this.houses.add(new House(i, expectedNumberOfStones));
         }
+    }
+
+    @JsonIgnore
+    public int getNumberOfStonesOnHouses() {
+        return houses.stream().mapToInt(House::getNumberOfStones).sum();
     }
 
     public Integer getPlayerId() {

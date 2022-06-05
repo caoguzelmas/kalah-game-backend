@@ -1,5 +1,6 @@
 package com.caoguzelmas.kalah.impl;
 
+import com.caoguzelmas.kalah.exceptions.IllegalMoveException;
 import com.caoguzelmas.kalah.model.Game;
 import com.caoguzelmas.kalah.model.House;
 import com.caoguzelmas.kalah.model.Player;
@@ -16,20 +17,30 @@ public class MoveServiceImpl implements IMoveService {
 
     @Override
     public Game move(int gameId, int selectedHouseIndex) {
-        // TODO Exceptions should be under control
         Game activeGame = gameRepository.findGame(gameId);
-
+        validateMove(gameId, selectedHouseIndex);
         replaceStones(activeGame, selectedHouseIndex);
         // TODO need to Look over is last stone placed into empty place owned by active player
-        // TODO need to look over is game over
-
+        checkIsGameOver(activeGame);
 
         return gameRepository.saveGame(activeGame);
     }
 
+    private void validateMove(int gameId, int selectedHouseIndex) {
+        Game activeGame = gameRepository.findGame(gameId);
+
+        if (selectedHouseIndex < 0 || selectedHouseIndex > activeGame.getFirstPlayer().getHouses().size()) {
+            throw new IllegalMoveException("Selected Index does not exist!");
+        }
+
+        if (activeGame.getActivePlayer().getHouses().get(selectedHouseIndex-1).getNumberOfStones() == 0) {
+            throw new IllegalMoveException("Selected house is empty!");
+        }
+    }
+
     private void replaceStones(Game activeGame, int houseIndex) {
-        Player activePlayer = getActivePlayer(activeGame);
-        Player inActivePlayer = getInactivePlayer(activeGame);
+        Player activePlayer = activeGame.getActivePlayer();
+        Player inActivePlayer = activeGame.getInactivePlayer();
         House selectedHouseOfActivePlayer = activePlayer.getHouses().get(houseIndex-1);
         int numberOfStonesOnSelectedHouse = selectedHouseOfActivePlayer.getNumberOfStones();
         selectedHouseOfActivePlayer.setNumberOfStones(0);
@@ -68,7 +79,7 @@ public class MoveServiceImpl implements IMoveService {
 
             if (i == 1) {
                 determineActivePlayerForNextTurn(activeGame, houseIndex);
-                lookOverEmptyCapture(activeGame, houseIndex);
+               // lookOverEmptyCapture(activeGame, houseIndex);
 
             }
             houseIndex++;
@@ -106,21 +117,9 @@ public class MoveServiceImpl implements IMoveService {
         }
     }
 
-    private Player getActivePlayer(Game game) {
-        return game.getFirstPlayer().getActivePlayer() ?
-                game.getFirstPlayer():
-                game.getSecondPlayer();
-    }
-
-    private Player getInactivePlayer(Game game) {
-        return !game.getFirstPlayer().getActivePlayer() ?
-                game.getFirstPlayer():
-                game.getSecondPlayer();
-    }
-
     private void determineActivePlayerForNextTurn(Game game, int nextHouseIndex) {
-        Player currentActivePlayer = getActivePlayer(game);
-        Player currentInactivePlayer = getInactivePlayer(game);
+        Player currentActivePlayer = game.getActivePlayer();
+        Player currentInactivePlayer = game.getInactivePlayer();
         boolean lastStoneToActivePlayerStore = nextHouseIndex == (currentActivePlayer.getHouses().size() + 1);
 
         if (!lastStoneToActivePlayerStore) {
@@ -129,18 +128,50 @@ public class MoveServiceImpl implements IMoveService {
         }
     }
 
+    private void checkIsGameOver(Game activeGame) {
+        int remainingStonesOfFirstPlayer = activeGame.getFirstPlayer().getNumberOfStonesOnHouses();
+        int remainingStonesOfSecondPlayer = activeGame.getSecondPlayer().getNumberOfStonesOnHouses();
+
+        if (remainingStonesOfFirstPlayer == 0 || remainingStonesOfSecondPlayer == 0) {
+
+            if (activeGame.getRemainingStonesInsertionEnabled()) {
+                activeGame.getFirstPlayer().getPlayerStore()
+                        .setNumberOfStones(activeGame.getFirstPlayer().getPlayerStore().getNumberOfStones() + remainingStonesOfFirstPlayer);
+                activeGame.getSecondPlayer().getPlayerStore()
+                        .setNumberOfStones(activeGame.getSecondPlayer().getPlayerStore().getNumberOfStones() + remainingStonesOfSecondPlayer);
+            }
+
+            if (activeGame.getFirstPlayer().getPlayerStore().getNumberOfStones()
+                    > activeGame.getSecondPlayer().getPlayerStore().getNumberOfStones()) {
+                activeGame.setWinnerPlayerId(activeGame.getFirstPlayer().getPlayerId());
+            } else if (activeGame.getFirstPlayer().getPlayerStore().getNumberOfStones()
+                    < activeGame.getSecondPlayer().getPlayerStore().getNumberOfStones()) {
+                activeGame.setWinnerPlayerId(activeGame.getSecondPlayer().getPlayerId());
+            } else {
+                activeGame.setWinnerPlayerId(0);
+            }
+        }
+    }
+
     private void lookOverEmptyCapture(Game activeGame, int nextHouseIndex) {
         // TODO
-        /*Player currentActivePlayer = getActivePlayer(activeGame);
-        Player currentInactivePlayer = getInactivePlayer(activeGame);
+        Player currentActivePlayer = activeGame.getActivePlayer();
+        Player currentInactivePlayer = activeGame.getInactivePlayer();
+
         if (activeGame.getEmptyCaptureEnabled()) {
-            if (activeGame.get) {
+            if (activeGame.getFlowsCounterClockwise()) {
+
+
+
+
+
+            } else {
 
             }
 
         } else {
 
-        }*/
+        }
     }
 
 }
