@@ -6,6 +6,7 @@ public class GameRequestDto {
     private Integer numberOfStones;
     private Boolean flowsCounterClockwise;
     private Boolean firstMoveOnFirstPlayer;
+    private Boolean emptyCaptureEnabled;
 
     public Integer getNumberOfHouses() {
         return numberOfHouses;
@@ -37,5 +38,13 @@ public class GameRequestDto {
 
     public void setFirstMoveOnFirstPlayer(Boolean firstMoveOnFirstPlayer) {
         this.firstMoveOnFirstPlayer = firstMoveOnFirstPlayer;
+    }
+
+    public Boolean getEmptyCaptureEnabled() {
+        return emptyCaptureEnabled;
+    }
+
+    public void setEmptyCaptureEnabled(Boolean emptyCaptureEnabled) {
+        this.emptyCaptureEnabled = emptyCaptureEnabled;
     }
 }

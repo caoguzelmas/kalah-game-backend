@@ -6,12 +6,14 @@ public class Game {
     private Player firstPlayer;
     private Player secondPlayer;
     private Boolean flowsCounterClockwise;
+    private Boolean emptyCaptureEnabled;
 
-    public Game(Player firstPlayer, Player secondPlayer, Boolean flowsCounterClockwise) {
+    public Game(Player firstPlayer, Player secondPlayer, Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled) {
         this.gameId = hashCode();
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.flowsCounterClockwise = flowsCounterClockwise;
+        this.emptyCaptureEnabled = emptyCaptureEnabled;
     }
 
     public Integer getGameId() {
@@ -44,5 +46,13 @@ public class Game {
 
     public void setFlowsCounterClockwise(Boolean flowsCounterClockwise) {
         this.flowsCounterClockwise = flowsCounterClockwise;
+    }
+
+    public Boolean getEmptyCaptureEnabled() {
+        return emptyCaptureEnabled;
+    }
+
+    public void setEmptyCaptureEnabled(Boolean emptyCaptureEnabled) {
+        this.emptyCaptureEnabled = emptyCaptureEnabled;
     }
 }

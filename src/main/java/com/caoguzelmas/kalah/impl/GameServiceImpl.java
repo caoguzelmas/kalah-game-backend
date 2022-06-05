@@ -32,7 +32,8 @@ public class GameServiceImpl implements IGameService {
         Game newGame = new Game(
                 firstPlayerOfNewGame,
                 secondPlayerOfNewGame,
-                gameRequestDto.getFlowsCounterClockwise());
+                gameRequestDto.getFlowsCounterClockwise(),
+                gameRequestDto.getEmptyCaptureEnabled());
 
         return gameRepository.saveGame(newGame);
     }
