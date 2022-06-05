@@ -20,7 +20,6 @@ public class MoveServiceImpl implements IMoveService {
         Game activeGame = gameRepository.findGame(gameId);
         validateMove(gameId, selectedHouseIndex);
         replaceStones(activeGame, selectedHouseIndex);
-        // TODO need to Look over is last stone placed into empty place owned by active player
         checkIsGameOver(activeGame);
 
         return gameRepository.saveGame(activeGame);
@@ -79,7 +78,8 @@ public class MoveServiceImpl implements IMoveService {
 
             if (i == 1) {
                 determineActivePlayerForNextTurn(activeGame, houseIndex);
-               // lookOverEmptyCapture(activeGame, houseIndex);
+                // TODO need to Look over is last stone placed into empty place owned by active player
+                // lookOverEmptyCapture(activeGame, houseIndex);
 
             }
             houseIndex++;
@@ -112,6 +112,7 @@ public class MoveServiceImpl implements IMoveService {
 
             if (i == 1) {
                 determineActivePlayerForNextTurn(activeGame, houseIndex);
+                // TODO need to Look over is last stone placed into empty place owned by active player
             }
             houseIndex--;
         }
@@ -157,9 +158,31 @@ public class MoveServiceImpl implements IMoveService {
         // TODO
         Player currentActivePlayer = activeGame.getActivePlayer();
         Player currentInactivePlayer = activeGame.getInactivePlayer();
+        House nextHouse;
+        House acrossHouse;
+
+        if (activeGame.getFlowsCounterClockwise() && nextHouseIndex > 0 && nextHouseIndex < currentActivePlayer.getHouses().size()) {
+            nextHouse = currentActivePlayer.getHouses().get(nextHouseIndex-1);
+
+            if (nextHouse.getNumberOfStones() == 0) {
+                acrossHouse = findAcrossHouse(activeGame, nextHouseIndex);
+
+                if (activeGame.getEmptyCaptureEnabled()) {
+                    currentActivePlayer.getPlayerStore().setNumberOfStones(currentActivePlayer.getPlayerStore().getNumberOfStones() + 1);
+                   // currentActivePlayer.getHouses().get()
+                } else {
+
+                }
+
+            }
+
+        } else {
+
+        }
 
         if (activeGame.getEmptyCaptureEnabled()) {
             if (activeGame.getFlowsCounterClockwise()) {
+
 
 
 
@@ -172,6 +195,11 @@ public class MoveServiceImpl implements IMoveService {
         } else {
 
         }
+    }
+
+    private House findAcrossHouse(Game activeGame, int houseIndexOfActivePlayer) {
+        Player currentInactivePlayer = activeGame.getInactivePlayer();
+        return currentInactivePlayer.getHouses().get(currentInactivePlayer.getHouses().size() - houseIndexOfActivePlayer + 1);
     }
 
 }
