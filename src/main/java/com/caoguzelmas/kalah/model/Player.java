@@ -26,7 +26,7 @@ public class Player {
 
     private void generateHouseList(int expectedSizeOfHouseList, int expectedNumberOfStones) {
         this.houses = new ArrayList<>();
-        for (int i = 1; i <= expectedSizeOfHouseList; i++) {
+        for (int i = 0; i <= expectedSizeOfHouseList-1; i++) {
             this.houses.add(new House(i, expectedNumberOfStones));
         }
     }
