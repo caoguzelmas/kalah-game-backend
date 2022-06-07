@@ -3,10 +3,12 @@ package com.caoguzelmas.kalah.model;
 public class House {
 
     private Integer houseId;
+    private Integer ownedPlayerId;
     private Integer numberOfStones;
 
-    public House(Integer houseId, Integer numberOfStones) {
+    public House(Integer houseId, Integer ownedPlayerId, Integer numberOfStones) {
         this.houseId = houseId;
+        this.ownedPlayerId = ownedPlayerId;
         this.numberOfStones = numberOfStones;
     }
 
@@ -16,6 +18,14 @@ public class House {
 
     public void setHouseId(Integer houseId) {
         this.houseId = houseId;
+    }
+
+    public Integer getOwnedPlayerId() {
+        return ownedPlayerId;
+    }
+
+    public void setOwnedPlayerId(Integer ownedPlayerId) {
+        this.ownedPlayerId = ownedPlayerId;
     }
 
     public Integer getNumberOfStones() {

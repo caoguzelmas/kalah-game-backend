@@ -7,17 +7,21 @@ public class Game extends ResponseCode {
     private Integer gameId;
     private Player firstPlayer;
     private Player secondPlayer;
+    private GameBoard gameBoard;
     private Integer winnerPlayerId;
     private Boolean flowsCounterClockwise;
     private Boolean emptyCaptureEnabled;
     private Boolean remainingStonesInsertionEnabled;
 
-    public Game(Player firstPlayer, Player secondPlayer, Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled,
-                Boolean remainingStonesInsertionEnabled, ResponseCode responseCode) {
+
+    public Game(Player firstPlayer, Player secondPlayer, int numberOfHouses, int numberOfStones,
+                Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled, Boolean remainingStonesInsertionEnabled,
+                ResponseCode responseCode) {
         super(responseCode.isSuccess(), responseCode.getMessage());
         this.gameId = hashCode();
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
+        this.gameBoard = new GameBoard(numberOfHouses, numberOfStones);
         this.flowsCounterClockwise = flowsCounterClockwise;
         this.emptyCaptureEnabled = emptyCaptureEnabled;
         this.remainingStonesInsertionEnabled = remainingStonesInsertionEnabled;
@@ -35,6 +39,20 @@ public class Game extends ResponseCode {
     @JsonIgnore
     public Player getInactivePlayer() {
         return !getFirstPlayer().getActivePlayer() ? getFirstPlayer() : getSecondPlayer();
+    }
+
+    @JsonIgnore
+    public int getStoreIndexOfActivePlayer() {
+        return getActivePlayer().getPlayerId().equals(1) ?
+                ((getGameBoard().getHouses().size() - 2) / 2) :
+                getGameBoard().getHouses().size() - 1;
+    }
+
+    @JsonIgnore
+    public int getStoreIndexOfInactivePlayer() {
+        return getInactivePlayer().getPlayerId().equals(1) ?
+                ((getGameBoard().getHouses().size() - 2) / 2) :
+                getGameBoard().getHouses().size() - 1;
     }
 
     public Integer getGameId() {
@@ -59,6 +77,14 @@ public class Game extends ResponseCode {
 
     public void setSecondPlayer(Player secondPlayer) {
         this.secondPlayer = secondPlayer;
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
     }
 
     public Integer getWinnerPlayerId() {
