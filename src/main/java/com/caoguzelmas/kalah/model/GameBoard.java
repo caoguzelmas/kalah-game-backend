@@ -28,16 +28,18 @@ public class GameBoard {
         this.houses.add(new House((expectedSizeOfHouseList*2)+1, 2, 0));
     }
 
-    public House getLastHouseOfList() {
-        return houses.get(houses.size()-1);
+    public int getHouseIdOfLastHouse() {
+        return houses.get(houses.size()-1).getHouseId();
     }
 
-    public int getRemainingStonesOfFirstPlayer() {
-        return houses.stream().filter(house -> house.getOwnedPlayerId().equals(1)).toArray().length;
+    public int getRemainingStonesOfFirstPlayer(int storeIndexOfFirstPlayer) {
+        return houses.stream().filter(house -> house.getOwnedPlayerId().equals(1)
+                && !house.getHouseId().equals(storeIndexOfFirstPlayer)).mapToInt(House::getNumberOfStones).sum();
     }
 
-    public int getRemainingStonesOfSecondPlayer() {
-        return houses.stream().filter(house -> house.getOwnedPlayerId().equals(2)).toArray().length;
+    public int getRemainingStonesOfSecondPlayer(int storeIndexOfSecondPlayer) {
+        return houses.stream().filter(house -> house.getOwnedPlayerId().equals(2)
+                && !house.getHouseId().equals(storeIndexOfSecondPlayer)).mapToInt(House::getNumberOfStones).sum();
     }
 
 

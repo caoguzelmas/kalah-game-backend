@@ -9,10 +9,7 @@ public class Game extends ResponseCode {
     private Player secondPlayer;
     private GameBoard gameBoard;
     private Integer winnerPlayerId;
-    private Boolean flowsCounterClockwise;
-    private Boolean emptyCaptureEnabled;
-    private Boolean remainingStonesInsertionEnabled;
-
+    private GameVariation gameVariation;
 
     public Game(Player firstPlayer, Player secondPlayer, int numberOfHouses, int numberOfStones,
                 Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled, Boolean remainingStonesInsertionEnabled,
@@ -22,9 +19,7 @@ public class Game extends ResponseCode {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.gameBoard = new GameBoard(numberOfHouses, numberOfStones);
-        this.flowsCounterClockwise = flowsCounterClockwise;
-        this.emptyCaptureEnabled = emptyCaptureEnabled;
-        this.remainingStonesInsertionEnabled = remainingStonesInsertionEnabled;
+        this.gameVariation = new GameVariation(flowsCounterClockwise, emptyCaptureEnabled, remainingStonesInsertionEnabled);
     }
 
     public Game() {
@@ -48,7 +43,7 @@ public class Game extends ResponseCode {
 
     @JsonIgnore
     public int getStoreIndexOfInactivePlayer() {
-        return getInactivePlayer().getPlayerId().equals(1) ? getStoreIndexOfSecondPlayer() : getStoreIndexOfFirstPlayer();
+        return getInactivePlayer().getPlayerId().equals(1) ? getStoreIndexOfFirstPlayer(): getStoreIndexOfSecondPlayer();
     }
 
     @JsonIgnore
@@ -101,27 +96,11 @@ public class Game extends ResponseCode {
         this.winnerPlayerId = winnerPlayerId;
     }
 
-    public Boolean getFlowsCounterClockwise() {
-        return flowsCounterClockwise;
+    public GameVariation getGameVariation() {
+        return gameVariation;
     }
 
-    public void setFlowsCounterClockwise(Boolean flowsCounterClockwise) {
-        this.flowsCounterClockwise = flowsCounterClockwise;
-    }
-
-    public Boolean getEmptyCaptureEnabled() {
-        return emptyCaptureEnabled;
-    }
-
-    public void setEmptyCaptureEnabled(Boolean emptyCaptureEnabled) {
-        this.emptyCaptureEnabled = emptyCaptureEnabled;
-    }
-
-    public Boolean getRemainingStonesInsertionEnabled() {
-        return remainingStonesInsertionEnabled;
-    }
-
-    public void setRemainingStonesInsertionEnabled(Boolean remainingStonesInsertionEnabled) {
-        this.remainingStonesInsertionEnabled = remainingStonesInsertionEnabled;
+    public void setGameVariation(GameVariation gameVariation) {
+        this.gameVariation = gameVariation;
     }
 }

@@ -3,7 +3,9 @@ package com.caoguzelmas.kalah.repository;
 import com.caoguzelmas.kalah.model.Game;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,6 +20,10 @@ public class GameRepository {
 
     public Game findGame(Integer gameId) {
         return gameMemory.get(gameId);
+    }
+
+    public List<Game> getAllGames() {
+        return new ArrayList<Game>(gameMemory.values());
     }
 
 

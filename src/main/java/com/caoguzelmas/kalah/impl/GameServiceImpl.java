@@ -9,6 +9,8 @@ import com.caoguzelmas.kalah.service.IGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GameServiceImpl implements IGameService {
 
@@ -36,5 +38,10 @@ public class GameServiceImpl implements IGameService {
                 new ResponseCode());
 
         return gameRepository.saveGame(newGame);
+    }
+
+    @Override
+    public List<Game> getAllGames() {
+        return gameRepository.getAllGames();
     }
 }
