@@ -43,16 +43,22 @@ public class Game extends ResponseCode {
 
     @JsonIgnore
     public int getStoreIndexOfActivePlayer() {
-        return getActivePlayer().getPlayerId().equals(1) ?
-                ((getGameBoard().getHouses().size() - 2) / 2) :
-                getGameBoard().getHouses().size() - 1;
+        return getActivePlayer().getPlayerId().equals(1) ? getStoreIndexOfFirstPlayer() : getStoreIndexOfSecondPlayer();
     }
 
     @JsonIgnore
     public int getStoreIndexOfInactivePlayer() {
-        return getInactivePlayer().getPlayerId().equals(1) ?
-                ((getGameBoard().getHouses().size() - 2) / 2) :
-                getGameBoard().getHouses().size() - 1;
+        return getInactivePlayer().getPlayerId().equals(1) ? getStoreIndexOfSecondPlayer() : getStoreIndexOfFirstPlayer();
+    }
+
+    @JsonIgnore
+    public int getStoreIndexOfFirstPlayer() {
+        return (getGameBoard().getHouses().size() - 2) / 2;
+    }
+
+    @JsonIgnore
+    public int getStoreIndexOfSecondPlayer() {
+        return getGameBoard().getHouses().size() - 1;
     }
 
     public Integer getGameId() {
