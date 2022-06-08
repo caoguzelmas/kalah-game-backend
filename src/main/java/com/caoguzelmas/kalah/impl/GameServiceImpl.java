@@ -19,14 +19,8 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public Game createGame(GameRequestDto gameRequestDto) {
-        Player firstPlayerOfNewGame =  new Player(
-                1,
-                gameRequestDto.getFirstMoveOnFirstPlayer());
-
-        Player secondPlayerOfNewGame =  new Player(
-                2,
-                !gameRequestDto.getFirstMoveOnFirstPlayer());
-
+        Player firstPlayerOfNewGame =  new Player(1, gameRequestDto.getFirstMoveOnFirstPlayer());
+        Player secondPlayerOfNewGame =  new Player(2, !gameRequestDto.getFirstMoveOnFirstPlayer());
         Game newGame = new Game(
                 firstPlayerOfNewGame,
                 secondPlayerOfNewGame,
