@@ -10,4 +10,6 @@ public interface IGameService {
     Game createGame(GameRequestDto gameRequestDto);
 
     List<Game> getAllGames();
+
+    Game getGame(int gameId);
 }

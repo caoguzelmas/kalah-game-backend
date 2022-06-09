@@ -38,4 +38,9 @@ public class GameServiceImpl implements IGameService {
     public List<Game> getAllGames() {
         return gameRepository.getAllGames();
     }
+
+    @Override
+    public Game getGame(int gameId) {
+        return gameRepository.findGame(gameId);
+    }
 }

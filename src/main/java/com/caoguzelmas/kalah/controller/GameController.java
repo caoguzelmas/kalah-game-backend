@@ -48,4 +48,9 @@ public class GameController {
     public ResponseEntity<List<Game>> getAllGames() {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGames());
     }
+
+    @GetMapping("/getGame")
+    public ResponseEntity<Game> getGame(@RequestParam Integer gameId) {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.getGame(gameId));
+    }
 }
