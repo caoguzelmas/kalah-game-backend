@@ -42,6 +42,14 @@ public class GameBoard {
                 && !house.getHouseId().equals(storeIndexOfSecondPlayer)).mapToInt(House::getNumberOfStones).sum();
     }
 
+    public void setHousesToEmpty(int storeIndexOfFirstPlayer, int storeIndexOfSecondPlayer) {
+        houses.forEach(house -> {
+            if (!house.getHouseId().equals(storeIndexOfFirstPlayer) && !house.getHouseId().equals(storeIndexOfSecondPlayer)) {
+                house.setNumberOfStones(0);
+            }
+        });
+    }
+
 
 
     public ArrayList<House> getHouses() {

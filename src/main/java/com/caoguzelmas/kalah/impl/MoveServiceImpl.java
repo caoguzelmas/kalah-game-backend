@@ -160,6 +160,7 @@ public class MoveServiceImpl implements IMoveService {
                         .setNumberOfStones(houseList.get(storeIndexOfFirstPlayer).getNumberOfStones() + remainingStonesOfFirstPlayer);
                 houseList.get(storeIndexOfSecondPlayer)
                         .setNumberOfStones(houseList.get(storeIndexOfSecondPlayer).getNumberOfStones() + remainingStonesOfSecondPlayer);
+                activeGame.getGameBoard().setHousesToEmpty(storeIndexOfFirstPlayer, storeIndexOfSecondPlayer);
             }
 
             if (activeGame.getGameBoard().getHouses().get(storeIndexOfFirstPlayer).getNumberOfStones()
