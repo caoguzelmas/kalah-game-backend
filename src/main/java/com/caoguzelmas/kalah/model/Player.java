@@ -13,12 +13,6 @@ public class Player {
     public Player() {
     }
 
-
-    /*@JsonIgnore
-    public int getNumberOfStonesOnHouses() {
-        return houses.stream().mapToInt(House::getNumberOfStones).sum();
-    }*/
-
     public Integer getPlayerId() {
         return playerId;
     }

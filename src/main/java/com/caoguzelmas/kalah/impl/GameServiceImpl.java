@@ -7,6 +7,7 @@ import com.caoguzelmas.kalah.model.ResponseCode;
 import com.caoguzelmas.kalah.repository.GameRepository;
 import com.caoguzelmas.kalah.service.IGameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class GameServiceImpl implements IGameService {
                 gameRequestDto.getEmptyCaptureEnabled(),
                 gameRequestDto.getRemainingStonesInsertionEnabled(),
                 new ResponseCode());
+
         return gameRepository.save(newGame);
     }
 
@@ -43,6 +45,6 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public List<Game> getAllGames() {
-        return gameRepository.findAll();
+        return gameRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
     }
 }

@@ -53,8 +53,6 @@ public class GameBoard {
         });
     }
 
-
-
     public ArrayList<House> getHouses() {
         return houses;
     }

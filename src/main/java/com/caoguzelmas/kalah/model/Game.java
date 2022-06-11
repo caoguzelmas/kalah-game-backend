@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document
 public class Game extends ResponseCode {
 
@@ -14,16 +16,17 @@ public class Game extends ResponseCode {
     private GameBoard gameBoard;
     private Integer winnerPlayerId;
     private GameVariation gameVariation;
+    private Date createDate;
 
     public Game(Player firstPlayer, Player secondPlayer, int numberOfHouses, int numberOfStones,
                 Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled, Boolean remainingStonesInsertionEnabled,
                 ResponseCode responseCode) {
         super(responseCode.isSuccess(), responseCode.getMessage());
-        this.gameId = Integer.toString(hashCode());
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.gameBoard = new GameBoard(numberOfHouses, numberOfStones);
         this.gameVariation = new GameVariation(flowsCounterClockwise, emptyCaptureEnabled, remainingStonesInsertionEnabled);
+        this.createDate = new Date();
     }
 
     public Game() {
@@ -106,5 +109,13 @@ public class Game extends ResponseCode {
 
     public void setGameVariation(GameVariation gameVariation) {
         this.gameVariation = gameVariation;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }
