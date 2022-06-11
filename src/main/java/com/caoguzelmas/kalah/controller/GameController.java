@@ -23,14 +23,13 @@ public class GameController {
     @Autowired
     private IMoveService moveService;
 
-
     @PostMapping("/createGame")
-    public ResponseEntity<Game> createGame(@RequestBody GameRequestDto gameRequestDto) {
+    public ResponseEntity<Game> createGameToMongo(@RequestBody GameRequestDto gameRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.createGame(gameRequestDto));
     }
 
     @PutMapping("/move")
-    public ResponseEntity<Game> move(@RequestParam Integer gameId, @RequestParam Integer selectedHouseIndex) {
+    public ResponseEntity<Game> moveByMongo(@RequestParam String gameId, @RequestParam Integer selectedHouseIndex) {
         Game moveResponse = new Game();
         try {
             moveResponse = moveService.move(gameId, selectedHouseIndex);
@@ -45,12 +44,17 @@ public class GameController {
     }
 
     @GetMapping("/getAllGames")
-    public ResponseEntity<List<Game>> getAllGames() {
+    public ResponseEntity<List<Game>> getAllGamesByMongo() {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGames());
     }
 
     @GetMapping("/getGame")
-    public ResponseEntity<Game> getGame(@RequestParam Integer gameId) {
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.getGame(gameId));
+    public ResponseEntity<Game> getGameByMongo(@RequestParam String gameId) {
+        Game game = gameService.getGame(gameId);
+
+        if (game == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(game);
     }
 }

@@ -4,5 +4,5 @@ import com.caoguzelmas.kalah.model.Game;
 
 public interface IMoveService {
 
-    Game move(int gameId, int selectedHouseIndex);
+    Game move(String gameId, int selectedHouseIndex);
 }

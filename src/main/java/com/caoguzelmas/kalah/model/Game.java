@@ -1,10 +1,14 @@
 package com.caoguzelmas.kalah.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class Game extends ResponseCode {
 
-    private Integer gameId;
+    @Id
+    private String gameId;
     private Player firstPlayer;
     private Player secondPlayer;
     private GameBoard gameBoard;
@@ -15,7 +19,7 @@ public class Game extends ResponseCode {
                 Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled, Boolean remainingStonesInsertionEnabled,
                 ResponseCode responseCode) {
         super(responseCode.isSuccess(), responseCode.getMessage());
-        this.gameId = hashCode();
+        this.gameId = Integer.toString(hashCode());
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.gameBoard = new GameBoard(numberOfHouses, numberOfStones);
@@ -56,11 +60,11 @@ public class Game extends ResponseCode {
         return getGameBoard().getHouses().size() - 1;
     }
 
-    public Integer getGameId() {
+    public String getGameId() {
         return gameId;
     }
 
-    public void setGameId(Integer gameId) {
+    public void setGameId(String gameId) {
         this.gameId = gameId;
     }
 

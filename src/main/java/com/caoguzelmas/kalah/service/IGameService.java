@@ -9,7 +9,7 @@ public interface IGameService {
 
     Game createGame(GameRequestDto gameRequestDto);
 
-    List<Game> getAllGames();
+    Game getGame(String gameId);
 
-    Game getGame(int gameId);
+    List<Game> getAllGames();
 }

@@ -12,6 +12,8 @@ public class GameVariation {
         this.remainingStonesInsertionEnabled = remainingStonesInsertionEnabled;
     }
 
+    public GameVariation() {}
+
     public Boolean getFlowsCounterClockwise() {
         return flowsCounterClockwise;
     }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GameServiceImpl implements IGameService {
@@ -30,17 +31,18 @@ public class GameServiceImpl implements IGameService {
                 gameRequestDto.getEmptyCaptureEnabled(),
                 gameRequestDto.getRemainingStonesInsertionEnabled(),
                 new ResponseCode());
+        return gameRepository.save(newGame);
+    }
 
-        return gameRepository.saveGame(newGame);
+    @Override
+    public Game getGame(String gameId) {
+        Optional<Game> game = gameRepository.findById(gameId);
+        return game.orElse(null);
+
     }
 
     @Override
     public List<Game> getAllGames() {
-        return gameRepository.getAllGames();
-    }
-
-    @Override
-    public Game getGame(int gameId) {
-        return gameRepository.findGame(gameId);
+        return gameRepository.findAll();
     }
 }

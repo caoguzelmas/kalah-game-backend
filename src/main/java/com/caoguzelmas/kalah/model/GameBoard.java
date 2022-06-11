@@ -10,6 +10,9 @@ public class GameBoard {
         this.generateHouseList(expectedSizeOfHouseList, expectedNumberOfStones);
     }
 
+    public GameBoard() {
+    }
+
     private void generateHouseList(int expectedSizeOfHouseList, int expectedNumberOfStones) {
         this.houses = new ArrayList<>();
 

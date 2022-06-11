@@ -1,7 +1,5 @@
 package com.caoguzelmas.kalah.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Player {
 
     private Integer playerId;
@@ -12,8 +10,7 @@ public class Player {
         this.isActivePlayer = isActivePlayer;
     }
 
-    public Player(int playerId) {
-        this.playerId = playerId;
+    public Player() {
     }
 
 

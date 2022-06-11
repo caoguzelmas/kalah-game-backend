@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class MoveServiceImpl implements IMoveService {
@@ -23,19 +24,22 @@ public class MoveServiceImpl implements IMoveService {
     private int storeIndexOfActivePlayer;
     private int storeIndexOfInactivePlayer;
 
-
     @Autowired
     private GameRepository gameRepository;
 
     @Override
-    public Game move(int gameId, int selectedHouseIndex) {
-        activeGame = gameRepository.findGame(gameId);
-        validateMove(selectedHouseIndex);
-        replaceStones(selectedHouseIndex);
-        // TODO needs test
-        checkIsGameOver();
+    public Game move(String gameId, int selectedHouseIndex) {
+        Optional<Game> game = gameRepository.findById(gameId);
 
-        return gameRepository.saveGame(activeGame);
+        if (game.isPresent()) {
+            activeGame = game.get();
+            validateMove(selectedHouseIndex);
+            replaceStones(selectedHouseIndex);
+            checkIsGameOver();
+            return gameRepository.save(activeGame);
+        }
+
+        return null;
     }
 
     private void validateMove(int selectedHouseIndex) {
@@ -47,7 +51,7 @@ public class MoveServiceImpl implements IMoveService {
             throw new IllegalMoveException("Store selection does not allowed!");
         }
 
-        if (selectedHouseIndex < 0 || selectedHouseIndex > activeGame.getGameBoard().getHouses().size()) {
+        if (selectedHouseIndex < 0 || selectedHouseIndex >= activeGame.getGameBoard().getHouses().size()) {
             throw new IllegalMoveException("Selected Index does not exist!");
         }
 
