@@ -35,4 +35,20 @@ public class House {
     public void setNumberOfStones(Integer numberOfStones) {
         this.numberOfStones = numberOfStones;
     }
+
+    public void addOne() {
+        this.numberOfStones += 1;
+    }
+
+    public void removeOne() {
+        this.numberOfStones -= 1;
+    }
+
+    public void addStones(int numberOfStones) {
+        this.numberOfStones += numberOfStones;
+    }
+
+    public void removeStones(int numberOfStones) {
+        this.numberOfStones -= numberOfStones;
+    }
 }

@@ -53,6 +53,10 @@ public class GameBoard {
         });
     }
 
+    public House findAcrossHouse(int houseIndex) {
+        return getHouses().get((getHouses().size() - 2) - houseIndex);
+    }
+
     public ArrayList<House> getHouses() {
         return houses;
     }

@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 @Document
-public class Game extends ResponseCode {
+public class Game {
 
     @Id
     private String gameId;
@@ -19,9 +19,7 @@ public class Game extends ResponseCode {
     private Date createDate;
 
     public Game(Player firstPlayer, Player secondPlayer, int numberOfHouses, int numberOfStones,
-                Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled, Boolean remainingStonesInsertionEnabled,
-                ResponseCode responseCode) {
-        super(responseCode.isSuccess(), responseCode.getMessage());
+                Boolean flowsCounterClockwise, Boolean emptyCaptureEnabled, Boolean remainingStonesInsertionEnabled) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.gameBoard = new GameBoard(numberOfHouses, numberOfStones);
