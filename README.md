@@ -2,6 +2,8 @@
 
 The repository includes the backend project of my Kalah Game Implementation. Communicates with the frontend project of Kalah Game Implementation, https://github.com/caoguzelmas/kalah-game-frontend. 
 
+Available on, https://hub.docker.com/r/caoguzelmas/kalah-game-backend
+
 Also live on, https://kalah-game-backend-coe.herokuapp.com/
 
 ## About the Kalah Game
@@ -19,6 +21,7 @@ The game is developed based on https://en.wikipedia.org/wiki/Kalah and implement
 - Java 1.8
 - Spring Boot 2.7.0
 - MongoDb
+- Docker
 
 ## How to Build & Run
 
