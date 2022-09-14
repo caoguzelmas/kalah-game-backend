@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/game")
 @RequiredArgsConstructor
+@RequestMapping("/game")
 public class GameController {
     private final IGameService gameService;
     private final IMoveService moveService;
@@ -32,10 +32,13 @@ public class GameController {
     @PutMapping("/move")
     public ResponseEntity<GameResponseDto> move(@RequestParam String gameId, @RequestParam Integer selectedHouseIndex) {
         GameResponseDto moveResponse = new GameResponseDto();
+
         try {
+            Game game = moveService.move(gameId, selectedHouseIndex);
+
             moveResponse.setSuccess(true);
             moveResponse.setMessage("Success");
-            moveResponse.setGame(moveService.move(gameId, selectedHouseIndex));
+            moveResponse.setGame(game);
 
             return ResponseEntity.status(HttpStatus.OK).body(moveResponse);
         } catch (IllegalMoveException illegalMove) {
@@ -64,17 +67,20 @@ public class GameController {
     @GetMapping("/getGame")
     public ResponseEntity<GameResponseDto> getGame(@RequestParam String gameId) {
         GameResponseDto gameResponse = new GameResponseDto();
-        Game game = gameService.getGame(gameId);
 
-        if (game == null) {
+        try {
+            Game game = gameService.getGame(gameId);
+
+            gameResponse.setSuccess(true);
+            gameResponse.setMessage("Success");
+            gameResponse.setGame(game);
+
+            return ResponseEntity.status(HttpStatus.OK).body(gameResponse);
+        } catch (GameException gameException) {
             gameResponse.setSuccess(false);
-            gameResponse.setMessage("Game not found");
+            gameResponse.setMessage(gameException.getMessage());
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(gameResponse);
         }
-        gameResponse.setSuccess(true);
-        gameResponse.setMessage("Success");
-        gameResponse.setGame(game);
-        return ResponseEntity.status(HttpStatus.OK).body(gameResponse);
     }
 }

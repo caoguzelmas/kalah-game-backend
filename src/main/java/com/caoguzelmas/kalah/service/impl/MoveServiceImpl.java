@@ -7,17 +7,19 @@ import com.caoguzelmas.kalah.model.House;
 import com.caoguzelmas.kalah.model.Player;
 import com.caoguzelmas.kalah.repository.GameRepository;
 import com.caoguzelmas.kalah.service.IMoveService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.caoguzelmas.kalah.service.rule.ReplaceStonesStrategy;
+import com.caoguzelmas.kalah.service.rule.impl.ReplaceStonesByClockwise;
+import com.caoguzelmas.kalah.service.rule.impl.ReplaceStonesByCounterClockwise;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MoveServiceImpl implements IMoveService {
-
-    @Autowired
-    private GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     @Override
     public Game move(String gameId, int selectedHouseIndex) {
@@ -26,13 +28,15 @@ public class MoveServiceImpl implements IMoveService {
         if (game.isPresent()) {
             Game activeGame = game.get();
             validateMove(selectedHouseIndex, activeGame);
-            replaceStones(activeGame, selectedHouseIndex);
+            ReplaceStonesStrategy replaceStonesStrategy = activeGame.getGameVariation().getFlowsCounterClockwise() ?
+                    new ReplaceStonesByCounterClockwise() :
+                    new ReplaceStonesByClockwise();
+            replaceStones(activeGame, selectedHouseIndex, replaceStonesStrategy);
             checkIsGameOver(activeGame);
             return gameRepository.save(activeGame);
         } else {
-            throw new GameException("Game not found");
+            throw new GameException("Game not found with Given Game ID: " + gameId);
         }
-
     }
 
     private void validateMove(int selectedHouseIndex, Game activeGame) {
@@ -58,57 +62,8 @@ public class MoveServiceImpl implements IMoveService {
         }
     }
 
-    private void replaceStones(Game activeGame, Integer houseIndex) {
-        House currentHouse = activeGame.getGameBoard().getHouses().get(houseIndex);
-        int numberOfStonesOnSelectedHouse = activeGame.getGameBoard().getHouses().get(houseIndex).getNumberOfStones();
-        currentHouse.setNumberOfStones(0);
-
-        if (activeGame.getGameVariation().getFlowsCounterClockwise()) {
-            houseIndex +=1;
-        } else {
-            houseIndex -=1;
-        }
-
-        while(numberOfStonesOnSelectedHouse > 0) {
-
-            //counter clockwise + clockwise
-            if (houseIndex == activeGame.getStoreIndexOfInactivePlayer()) {
-
-                if (activeGame.getGameVariation().getFlowsCounterClockwise()) {
-                    //counter clockwise
-                    if (activeGame.getActivePlayer().getPlayerId().equals(1)) {
-                        houseIndex = 0;
-                    //clockwise
-                    } else {
-                        houseIndex += 1;
-                    }
-                } else {
-                    houseIndex -=1;
-                }
-            }
-            //counter clockwise
-            else if (houseIndex > activeGame.getGameBoard().getHouseIdOfLastHouse()) {
-                houseIndex = 0;
-            }
-            //clockwise
-            else if (houseIndex < 0) {
-                houseIndex = activeGame.getActivePlayer().getPlayerId().equals(1) ?
-                        activeGame.getGameBoard().getHouseIdOfLastHouse() - 1 :
-                        activeGame.getGameBoard().getHouseIdOfLastHouse();
-            }
-            currentHouse = activeGame.getGameBoard().getHouses().get(houseIndex);
-            currentHouse.addOne();
-
-            if (activeGame.getGameVariation().getFlowsCounterClockwise()) {
-                houseIndex +=1;
-            } else {
-                houseIndex -=1;
-            }
-            numberOfStonesOnSelectedHouse--;
-        }
-        int houseIndexOfLastStone = activeGame.getGameVariation().getFlowsCounterClockwise() ?
-                houseIndex - 1 :
-                houseIndex + 1;
+    private void replaceStones(Game activeGame, Integer houseIndex, ReplaceStonesStrategy replaceStonesStrategy) {
+        int houseIndexOfLastStone = replaceStonesStrategy.replaceStones(activeGame, houseIndex);
         lookOverEmptyCapture(houseIndexOfLastStone, activeGame);
         determineActivePlayerForNextTurn(houseIndexOfLastStone, activeGame);
     }
