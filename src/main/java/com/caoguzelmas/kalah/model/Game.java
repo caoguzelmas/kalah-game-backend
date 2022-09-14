@@ -3,6 +3,7 @@ package com.caoguzelmas.kalah.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Document
 @Getter
 @Setter
+@NoArgsConstructor
 public class Game {
 
     @Id
@@ -30,10 +32,6 @@ public class Game {
         this.gameBoard = new GameBoard(numberOfHouses, numberOfStones);
         this.gameVariation = new GameVariation(flowsCounterClockwise, emptyCaptureEnabled, remainingStonesInsertionEnabled);
         this.createDate = new Date();
-    }
-
-    public Game() {
-        super();
     }
 
     @JsonIgnore
