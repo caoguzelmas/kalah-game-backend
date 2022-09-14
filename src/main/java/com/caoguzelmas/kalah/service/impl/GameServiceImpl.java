@@ -1,6 +1,6 @@
-package com.caoguzelmas.kalah.impl;
+package com.caoguzelmas.kalah.service.impl;
 
-import com.caoguzelmas.kalah.dto.GameRequestDto;
+import com.caoguzelmas.kalah.model.dto.GameRequestDto;
 import com.caoguzelmas.kalah.model.Game;
 import com.caoguzelmas.kalah.model.Player;
 import com.caoguzelmas.kalah.repository.GameRepository;
@@ -20,11 +20,16 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public Game createGame(GameRequestDto gameRequestDto) {
-        Player firstPlayerOfNewGame =  new Player(1, gameRequestDto.getFirstMoveOnFirstPlayer());
-        Player secondPlayerOfNewGame =  new Player(2, !gameRequestDto.getFirstMoveOnFirstPlayer());
+
         Game newGame = new Game(
-                firstPlayerOfNewGame,
-                secondPlayerOfNewGame,
+                Player.builder()
+                        .playerId(1)
+                        .isActivePlayer(gameRequestDto.getFirstMoveOnFirstPlayer())
+                        .build(),
+                Player.builder()
+                        .playerId(2)
+                        .isActivePlayer(!gameRequestDto.getFirstMoveOnFirstPlayer())
+                        .build(),
                 gameRequestDto.getNumberOfHouses(),
                 gameRequestDto.getNumberOfStones(),
                 gameRequestDto.getFlowsCounterClockwise(),

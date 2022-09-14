@@ -1,16 +1,17 @@
 package com.caoguzelmas.kalah.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 
+@Getter
+@Setter
 public class GameBoard {
-
     private ArrayList<House> houses;
 
     public GameBoard(int expectedSizeOfHouseList, int expectedNumberOfStones) {
-        this.generateHouseList(expectedSizeOfHouseList, expectedNumberOfStones);
-    }
-
-    public GameBoard() {
+        generateHouseList(expectedSizeOfHouseList, expectedNumberOfStones);
     }
 
     private void generateHouseList(int expectedSizeOfHouseList, int expectedNumberOfStones) {
@@ -18,17 +19,33 @@ public class GameBoard {
 
         // Houses of Player1
         for (int i = 0; i < expectedSizeOfHouseList; i++) {
-            this.houses.add(new House(i, 1, expectedNumberOfStones));
+            this.houses.add(House.builder()
+                    .houseId(i)
+                    .ownedPlayerId(1)
+                    .numberOfStones(expectedNumberOfStones)
+                    .build());
         }
         // Store of Player1
-        this.houses.add(new House(expectedSizeOfHouseList, 1, 0));
+        this.houses.add(House.builder()
+                        .houseId(expectedSizeOfHouseList)
+                        .ownedPlayerId(1)
+                        .numberOfStones(0)
+                        .build());
 
         // Houses of Player2
         for (int i = expectedSizeOfHouseList + 1; i < (expectedSizeOfHouseList * 2) + 1; i++) {
-            this.houses.add(new House(i, 2, expectedNumberOfStones));
+            this.houses.add(House.builder()
+                    .houseId(i)
+                    .ownedPlayerId(2)
+                    .numberOfStones(expectedNumberOfStones)
+                    .build());
         }
         // Store of Player2
-        this.houses.add(new House((expectedSizeOfHouseList*2)+1, 2, 0));
+        this.houses.add(House.builder()
+                .houseId((expectedSizeOfHouseList * 2) + 1)
+                .ownedPlayerId(2)
+                .numberOfStones(0)
+                .build());
     }
 
     public int getHouseIdOfLastHouse() {
@@ -36,13 +53,16 @@ public class GameBoard {
     }
 
     public int getRemainingStonesOfFirstPlayer(int storeIndexOfFirstPlayer) {
-        return houses.stream().filter(house -> house.getOwnedPlayerId().equals(1)
-                && !house.getHouseId().equals(storeIndexOfFirstPlayer)).mapToInt(House::getNumberOfStones).sum();
+        return houses.stream()
+                .filter(house -> house.getOwnedPlayerId().equals(1)
+                        && !house.getHouseId().equals(storeIndexOfFirstPlayer))
+                .mapToInt(House::getNumberOfStones).sum();
     }
 
     public int getRemainingStonesOfSecondPlayer(int storeIndexOfSecondPlayer) {
-        return houses.stream().filter(house -> house.getOwnedPlayerId().equals(2)
-                && !house.getHouseId().equals(storeIndexOfSecondPlayer)).mapToInt(House::getNumberOfStones).sum();
+        return houses.stream()
+                .filter(house -> house.getOwnedPlayerId().equals(2) && !house.getHouseId().equals(storeIndexOfSecondPlayer))
+                .mapToInt(House::getNumberOfStones).sum();
     }
 
     public void setHousesToEmpty(int storeIndexOfFirstPlayer, int storeIndexOfSecondPlayer) {
@@ -56,14 +76,4 @@ public class GameBoard {
     public House findAcrossHouse(int houseIndex) {
         return getHouses().get((getHouses().size() - 2) - houseIndex);
     }
-
-    public ArrayList<House> getHouses() {
-        return houses;
-    }
-
-    public void setHouses(ArrayList<House> houses) {
-        this.houses = houses;
-    }
-
-
 }

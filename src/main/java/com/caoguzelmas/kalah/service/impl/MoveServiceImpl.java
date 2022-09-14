@@ -1,4 +1,4 @@
-package com.caoguzelmas.kalah.impl;
+package com.caoguzelmas.kalah.service.impl;
 
 import com.caoguzelmas.kalah.exceptions.GameException;
 import com.caoguzelmas.kalah.exceptions.IllegalMoveException;
@@ -118,8 +118,8 @@ public class MoveServiceImpl implements IMoveService {
         if (houseIndexOfLastStone != activeGame.getStoreIndexOfActivePlayer()) {
             Player activePlayer = activeGame.getActivePlayer();
             Player inActivePlayer = activeGame.getInactivePlayer();
-            activePlayer.setActivePlayer(false);
-            inActivePlayer.setActivePlayer(true);
+            activePlayer.setIsActivePlayer(false);
+            inActivePlayer.setIsActivePlayer(true);
         }
     }
 

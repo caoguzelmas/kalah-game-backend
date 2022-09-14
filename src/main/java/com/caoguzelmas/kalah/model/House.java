@@ -1,40 +1,18 @@
 package com.caoguzelmas.kalah.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
 public class House {
 
     private Integer houseId;
     private Integer ownedPlayerId;
     private Integer numberOfStones;
-
-    public House(Integer houseId, Integer ownedPlayerId, Integer numberOfStones) {
-        this.houseId = houseId;
-        this.ownedPlayerId = ownedPlayerId;
-        this.numberOfStones = numberOfStones;
-    }
-
-    public Integer getHouseId() {
-        return houseId;
-    }
-
-    public void setHouseId(Integer houseId) {
-        this.houseId = houseId;
-    }
-
-    public Integer getOwnedPlayerId() {
-        return ownedPlayerId;
-    }
-
-    public void setOwnedPlayerId(Integer ownedPlayerId) {
-        this.ownedPlayerId = ownedPlayerId;
-    }
-
-    public Integer getNumberOfStones() {
-        return numberOfStones;
-    }
-
-    public void setNumberOfStones(Integer numberOfStones) {
-        this.numberOfStones = numberOfStones;
-    }
 
     public void addOne() {
         this.numberOfStones += 1;

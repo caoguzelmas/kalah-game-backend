@@ -1,27 +1,24 @@
 package com.caoguzelmas.kalah.controller;
 
-import com.caoguzelmas.kalah.dto.GameRequestDto;
-import com.caoguzelmas.kalah.dto.GameResponseDto;
+import com.caoguzelmas.kalah.model.dto.GameRequestDto;
+import com.caoguzelmas.kalah.model.dto.GameResponseDto;
 import com.caoguzelmas.kalah.exceptions.GameException;
 import com.caoguzelmas.kalah.exceptions.IllegalMoveException;
 import com.caoguzelmas.kalah.model.Game;
 import com.caoguzelmas.kalah.service.IGameService;
 import com.caoguzelmas.kalah.service.IMoveService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:4200", "https://kalah-game-frontend-coe.herokuapp.com"})
+@CrossOrigin
 @RestController
 @RequestMapping("/game")
+@RequiredArgsConstructor
 public class GameController {
-
-    @Autowired
-    private IGameService gameService;
-
-    @Autowired
-    private IMoveService moveService;
+    private final IGameService gameService;
+    private final IMoveService moveService;
 
     @PostMapping("/createGame")
     public ResponseEntity<GameResponseDto> createGame(@RequestBody GameRequestDto gameRequestDto) {

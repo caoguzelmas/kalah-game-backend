@@ -1,12 +1,17 @@
 package com.caoguzelmas.kalah.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
 @Document
+@Getter
+@Setter
 public class Game {
 
     @Id
@@ -33,12 +38,12 @@ public class Game {
 
     @JsonIgnore
     public Player getActivePlayer() {
-        return getFirstPlayer().getActivePlayer() ? getFirstPlayer() : getSecondPlayer();
+        return getFirstPlayer().getIsActivePlayer() ? getFirstPlayer() : getSecondPlayer();
     }
 
     @JsonIgnore
     public Player getInactivePlayer() {
-        return !getFirstPlayer().getActivePlayer() ? getFirstPlayer() : getSecondPlayer();
+        return !getFirstPlayer().getIsActivePlayer() ? getFirstPlayer() : getSecondPlayer();
     }
 
     @JsonIgnore
@@ -59,61 +64,5 @@ public class Game {
     @JsonIgnore
     public int getStoreIndexOfSecondPlayer() {
         return getGameBoard().getHouses().size() - 1;
-    }
-
-    public String getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
-    }
-
-    public Player getFirstPlayer() {
-        return firstPlayer;
-    }
-
-    public void setFirstPlayer(Player firstPlayer) {
-        this.firstPlayer = firstPlayer;
-    }
-
-    public Player getSecondPlayer() {
-        return secondPlayer;
-    }
-
-    public void setSecondPlayer(Player secondPlayer) {
-        this.secondPlayer = secondPlayer;
-    }
-
-    public GameBoard getGameBoard() {
-        return gameBoard;
-    }
-
-    public void setGameBoard(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-    public Integer getWinnerPlayerId() {
-        return winnerPlayerId;
-    }
-
-    public void setWinnerPlayerId(Integer winnerPlayerId) {
-        this.winnerPlayerId = winnerPlayerId;
-    }
-
-    public GameVariation getGameVariation() {
-        return gameVariation;
-    }
-
-    public void setGameVariation(GameVariation gameVariation) {
-        this.gameVariation = gameVariation;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
     }
 }

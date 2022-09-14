@@ -1,15 +1,16 @@
-package com.caoguzelmas.kalah.model;
+package com.caoguzelmas.kalah.model.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class GameVariation {
+public class GameRequestDto {
 
+    private Integer numberOfHouses;
+    private Integer numberOfStones;
     private Boolean flowsCounterClockwise;
+    private Boolean firstMoveOnFirstPlayer;
     private Boolean emptyCaptureEnabled;
     private Boolean remainingStonesInsertionEnabled;
 }
