@@ -1,4 +1,4 @@
-package com.caoguzelmas.kalah.service.rule;
+package com.caoguzelmas.kalah.service.strategy;
 
 import com.caoguzelmas.kalah.model.Game;
 

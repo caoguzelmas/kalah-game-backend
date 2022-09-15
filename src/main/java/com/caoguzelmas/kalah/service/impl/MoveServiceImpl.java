@@ -7,9 +7,9 @@ import com.caoguzelmas.kalah.model.House;
 import com.caoguzelmas.kalah.model.Player;
 import com.caoguzelmas.kalah.repository.GameRepository;
 import com.caoguzelmas.kalah.service.IMoveService;
-import com.caoguzelmas.kalah.service.rule.ReplaceStonesStrategy;
-import com.caoguzelmas.kalah.service.rule.impl.ReplaceStonesByClockwise;
-import com.caoguzelmas.kalah.service.rule.impl.ReplaceStonesByCounterClockwise;
+import com.caoguzelmas.kalah.service.strategy.ReplaceStonesStrategy;
+import com.caoguzelmas.kalah.service.strategy.impl.ReplaceStonesByClockwise;
+import com.caoguzelmas.kalah.service.strategy.impl.ReplaceStonesByCounterClockwise;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
