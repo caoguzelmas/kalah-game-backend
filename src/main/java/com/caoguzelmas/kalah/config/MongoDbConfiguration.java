@@ -13,7 +13,8 @@ public class MongoDbConfiguration {
 
     @Bean
     public MongoClient mongoClient() {
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://kalah-player:kalah123@kalah-game-cluster.zeszsxg.mongodb.net/?retryWrites=true&w=majority");
+        // mongodb+srv://kalah-player:kalah123@kalah-game-cluster.zeszsxg.mongodb.net/?retryWrites=true&w=majority
+        ConnectionString connectionString = new ConnectionString("mongodb://admin:password@localhost:27017");
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
