@@ -10,11 +10,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 public class MongoDbConfiguration {
+    String mongoDbConnectionString = System.getenv("MONGODB_CONNECTION_STRING");
 
     @Bean
     public MongoClient mongoClient() {
-        // mongodb+srv://kalah-player:kalah123@kalah-game-cluster.zeszsxg.mongodb.net/?retryWrites=true&w=majority
-        ConnectionString connectionString = new ConnectionString("mongodb://admin:password@localhost:27017");
+        ConnectionString connectionString = new ConnectionString(mongoDbConnectionString);
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();

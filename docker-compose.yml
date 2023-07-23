@@ -1,12 +1,22 @@
   version: "1.0.0"
   services:
-#    kalah-game-backend:
-#      image: caoguzelmas/kalah-game-backend
-#      ports:
-#     2   - "8080:8080"
-#      depends_on:
-#        - mongo-db
-#        - express
+    kalah-game-frontend:
+      image: caoguzelmas/kalah-game-frontend:0.2
+      ports:
+        - "4200:4200"
+      depends_on:
+        - kalah-game-backend
+      environment:
+        APP_KEY: TEST123
+    kalah-game-backend:
+      image: caoguzelmas/kalah-game-backend
+      ports:
+        - "8080:8080"
+      depends_on:
+        - mongo-db
+        - mongo-express
+      environment:
+        MONGODB_CONNECTION_STRING: mongodb://admin:password@localhost:27017
     mongo-db:
       image: mongo
       container_name: mongo-db
