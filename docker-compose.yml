@@ -8,30 +8,33 @@ services:
   #    - mongo-db
   #    - mongo-express
   #  environment:
-  #    MONGODB_CONNECTION_STRING: mongodb://admin:password@localhost:27017
-  mongo:
+  #    MONGODB_CONNECTION_STRING: mongodb://kalah-player:pwd123@localhost:27017
+  #    MONGODB_USERNAME: kalah-player123
+  #    MONGODB_PASSWORD: pwd123
+  #    MONGODB_DATABASE: kalah-db
+  mongo-db:
     image: mongo
-    #container_name: mongo-db
+    container_name: mongo-db
+    restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_ROOT_DATABASE: kalah-db
+      MONGO_INITDB_ROOT_USERNAME: kalah-player
+      MONGO_INITDB_ROOT_PASSWORD: pwd123
     volumes:
       - ./init.js:/docker-entrypoint-initdb.d/init.js:ro
-    #ports:
-    #  - "27017:27017"
+    ports:
+      - "27017:27017"
   mongo-express:
     image: mongo-express
     restart: always
     depends_on:
-      - mongo
+      - mongo-db
     ports:
       - "8081:8081"
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_SERVER: mongo
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_MONGODB_ADMINUSERNAME: kalah-player
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pwd123
+      ME_CONFIG_MONGODB_SERVER: mongo-db
+      #ME_CONFIG_MONGODB_URL: mongodb://kalah-player:pwd123@mongo:27017/?authSource=admin
 #  kalah-game-frontend:
 #    image: caoguzelmas/kalah-game-frontend:0.2
 ##    ports:
