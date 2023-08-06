@@ -35,12 +35,3 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: kalah-player
       ME_CONFIG_MONGODB_ADMINPASSWORD: pwd123
       ME_CONFIG_MONGODB_SERVER: mongo-db
-      #ME_CONFIG_MONGODB_URL: mongodb://kalah-player:pwd123@mongo:27017/?authSource=admin
-#  kalah-game-frontend:
-#    image: caoguzelmas/kalah-game-frontend:0.2
-##    ports:
-##      - "4200:4200"
-#    depends_on:
-#      - kalah-game-backend
-#    environment:
-#      APP_KEY: TEST123
